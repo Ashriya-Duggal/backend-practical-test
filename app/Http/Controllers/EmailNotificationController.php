@@ -25,6 +25,10 @@ class EmailNotificationController extends Controller
             'subject' => $request->subject,
             'message' => $request->message,
         ]);
+        // Dispatch the job to send the email
+        SendEmailNotification::dispatch($notification->subject, $notification->message);
+        \Log::info("Dispatching job with subject: {$notification->subject} and message: {$notification->message}");
+
 
         return response()->json(['message' => 'Email notification sent successfully.'], 201);
     }

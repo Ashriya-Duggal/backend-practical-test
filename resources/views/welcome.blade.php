@@ -31,25 +31,31 @@
     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#emailNotificationForm').on('submit', function(event) {
-                event.preventDefault();
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        alert(response.message);
-                    },
-                    error: function(xhr) {
+    $(document).ready(function() {
+        $('#emailNotificationForm').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert(response.message); 
+                },
+                error: function(xhr) {
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
                         let errors = xhr.responseJSON.errors;
                         let errorMessages = Object.values(errors).flat().join('\n');
-                        alert("Validation Errors:\n" + errorMessages);
+                        alert("Validation Errors:\n" + errorMessages); 
+                    } else {
+                        alert("An error occurred. Please try again later.");
                     }
-                });
+                }
             });
         });
-    </script>
+    });
+</script>
+
+
 </body>
 
 </html>
